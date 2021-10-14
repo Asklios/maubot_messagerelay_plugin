@@ -1,6 +1,6 @@
 from maubot import Plugin
 from maubot.handlers import command
-from mautrix.types import MessageEvent, RoomID
+from mautrix.types import MessageEvent, RoomID, MessageType
 from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
 from typing import Type
 from websockets import connect
@@ -60,8 +60,12 @@ class Messagerelay(Plugin):
                             self.log.debug(f"Target '{room_name}' is not mapped to room.")
                         else:
                             content = r.get("content")
-                            msg_event_id = await self.client.send_markdown(room_id, content)
-                            self.log.info(f"Sent message to {room_id}")
+                            self.log.info(f"Sending message to {room_id}")
+                            msg_event_id = await self.client.send_markdown(room_id=room_id,
+                                                                           markdown=content,
+                                                                           allow_html=True,
+                                                                           msgtype=MessageType.TEXT
+                                                                           )
                             self.db.save_message(room_name, room_id, msg_event_id, r.get("id"), content)
 
                     elif r.get('type') == 'delete':
