@@ -51,7 +51,7 @@ class Messagerelay(Plugin):
                     elif r.get('type') == 'error':
                         self.log.error(f'[ERROR]: {r.get("msg")}')
                     elif r.get('type') == 'create':
-                        self.log.info(f'new message ({r.get("id")}) to {r.get("target")}: {r.get("content")}')
+                        # self.log.info(f'new message ({r.get("id")}) to {r.get("target")}: {r.get("content")}')
 
                         room_name = r.get("target")
                         room_id: RoomID = RoomID(self.db.get_room_id(room_name)[2])
@@ -60,7 +60,7 @@ class Messagerelay(Plugin):
                             self.log.debug(f"Target '{room_name}' is not mapped to room.")
                         else:
                             content = r.get("content")
-                            self.log.info(f"Sending message to {room_id}")
+                            # self.log.info(f"Sending message to {room_id}")
                             msg_event_id = await self.client.send_markdown(room_id=room_id,
                                                                            markdown=content,
                                                                            allow_html=True,
@@ -70,7 +70,7 @@ class Messagerelay(Plugin):
 
                     elif r.get('type') == 'delete':
                         msg_id = r.get("id")
-                        self.log.info(f'delete message: {msg_id} from room {room_id} / evt: {evt_id}')
+                        # self.log.info(f'delete message: {msg_id} from room {room_id} / evt: {evt_id}')
 
                         result = self.db.get_evt_by_message_id(msg_id)
                         room_id = result[0]

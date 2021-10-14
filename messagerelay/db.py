@@ -38,7 +38,6 @@ class MrDatabase:
         self.db.execute("UPDATE rooms SET room_id=? WHERE room_id=?", (room_id_new, room_id_old))
 
     def save_message(self, room_name: str, room_id: str, message_evt_id: str, message_id: str, message_content: str):
-        self.plugin.log.info("saving message to db")
         self.db.execute("INSERT INTO messages(room_name, room_id, message_evt_id, message_id, message_content, deleted)"
                         " VALUES(?,?,?,?,?,?)",
                         (room_name, room_id, message_evt_id, message_id, message_content, False))
