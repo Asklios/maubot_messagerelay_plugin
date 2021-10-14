@@ -1,13 +1,13 @@
 maubot: 0.1.0
 id: de.asklios.messagerelay
-version: 0.1.4
+version: 0.1.5
 
 modules:
 - messagerelay
 main_class: Messagerelay
 
 database: true
-extra_file:
+extra_files:
 - base-config.yaml
 
 dependencies:
