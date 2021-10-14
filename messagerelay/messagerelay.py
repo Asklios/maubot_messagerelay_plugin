@@ -1,6 +1,6 @@
 from maubot import Plugin
-from maubot.handlers import command
-from mautrix.types import MessageEvent, RoomID, MessageType
+from maubot.handlers import command, event
+from mautrix.types import MessageEvent, RoomID, MessageType, EventType, StateEvent
 from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
 from typing import Type
 from websockets import connect
@@ -90,7 +90,16 @@ class Messagerelay(Plugin):
     async def messagerelay(self, evt: MessageEvent, room_name: str):
         room_id = evt.room_id
         if evt.sender == self.config["admin"]:
-            self.db.save_room(room_name, room_id)
+            self.db.update_room(room_name, room_id)
             await evt.respond(f"Binding {room_name} to this room")
         else:
             await evt.respond("You do not have the permission to bind a room.")
+
+    @event.on(EventType.ROOM_TOMBSTONE)
+    async def handle_tombstone(self, evt: StateEvent):
+
+        old_room = evt.room_id
+        new_room = evt.content.replacement_room
+
+        self.log.info(f"{old_room} was upgraded to {new_room}")
+        self.db.update_room_id(old_room, new_room)
