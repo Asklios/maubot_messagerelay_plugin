@@ -1,6 +1,6 @@
 maubot: 0.1.0
 id: de.asklios.messagerelay
-version: 0.1.8
+version: 0.1.9
 
 modules:
 - messagerelay

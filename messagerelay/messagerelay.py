@@ -28,6 +28,7 @@ class Messagerelay(Plugin):
         self.log.debug('startup')
         await super().start()
         self.config.load_and_update()
+        self.db = MrDatabase(self.database, self)
         asyncio.ensure_future(self.websocket())
 
     async def websocket(self) -> None:
