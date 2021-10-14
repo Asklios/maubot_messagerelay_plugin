@@ -20,15 +20,15 @@ class Config(BaseProxyConfig):
 class Messagerelay(Plugin):
     db: MrDatabase
 
+    @classmethod
+    def get_config_class(cls) -> Type[BaseProxyConfig]:
+        return Config
+
     async def start(self) -> None:
         self.log.debug('startup')
         await super().start()
         self.config.load_and_update()
         asyncio.run(self.websocket())
-
-    @classmethod
-    def get_config_class(cls) -> Type['BaseProxyConfig']:
-        return Config
 
     async def websocket(self) -> None:
 

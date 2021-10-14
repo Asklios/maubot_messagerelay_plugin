@@ -9,3 +9,6 @@ main_class: Messagerelay
 database: true
 extra_file:
   - base-config.yaml
+
+dependencies:
+  - websockets
