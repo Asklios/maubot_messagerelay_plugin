@@ -81,8 +81,11 @@ class Messagerelay(Plugin):
 
     @command.new("mrroom", aliases=["messagerelay", "mr-room"],
                  help="Admincommand to set rooms for the messagerelay(light) !mrroom <room_name>.")
-    async def messagerelay(self, evt: MessageEvent):
+    @command.argument("room_name", pass_raw=True, required=True)
+    async def messagerelay(self, evt: MessageEvent, room_name: str):
         room_id = evt.room_id
-        room_name = evt.content.body.split(" ")[1].strip()
-        self.db.save_room(room_name, room_id)
-        await evt.respond(f"Binding {room_name} to this room")
+        if evt.sender == self.config["admin"]:
+            self.db.save_room(room_name, room_id)
+            await evt.respond(f"Binding {room_name} to this room")
+        else:
+            await evt.respond("You do not have the permission to bind a room.")
