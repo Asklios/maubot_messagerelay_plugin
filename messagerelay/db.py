@@ -44,9 +44,8 @@ class MrDatabase:
             deleted=False
         ))
 
-    def get_room_id(self, room_name: str) -> str:
-        result = self.db.execute(self.rooms.select(self.messages.c.room_id)
-                                 .where(self.rooms.c.room_name == room_name)).fetchone()
+    def get_room_id(self, room_name: str):
+        result = self.db.execute(self.rooms.select().where(self.rooms.c.room_name == room_name)).fetchone()
         return result
 
     def get_evt_by_message_id(self, message_id):

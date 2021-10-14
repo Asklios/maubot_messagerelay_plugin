@@ -54,7 +54,7 @@ class Messagerelay(Plugin):
                         self.log.info(f'new message ({r.get("id")}) to {r.get("target")}: {r.get("content")}')
 
                         room_name = r.get("target")
-                        room_id: RoomID = RoomID(self.db.get_room_id(room_name))
+                        room_id: RoomID = RoomID(self.db.get_room_id(room_name)[2])
 
                         if room_id is None:
                             self.log.debug(f"Target '{room_name}' is not mapped to room.")
