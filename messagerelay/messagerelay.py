@@ -2,6 +2,7 @@ from maubot import Plugin
 from maubot.handlers import command
 from mautrix.types import MessageEvent, RoomID
 from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
+from typing import Type
 from websockets import connect
 import asyncio
 import json
@@ -24,6 +25,10 @@ class Messagerelay(Plugin):
         await super().start()
         self.config.load_and_update()
         asyncio.run(self.websocket())
+
+    @classmethod
+    def get_config_class(cls) -> Type['BaseProxyConfig']:
+        return Config
 
     async def websocket(self) -> None:
 
