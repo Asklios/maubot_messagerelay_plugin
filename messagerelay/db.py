@@ -35,7 +35,7 @@ class MrDatabase:
         self.db.execute("INSERT OR REPLACE INTO rooms(room_name, room_id) VALUES(?,?)", (room_name, room_id))
 
     def update_room_id(self, room_id_old: str, room_id_new) -> None:
-        self.db.execute("UPDATE rooms SET room_id=? WHERE room_id=?)", (room_id_new, room_id_old))
+        self.db.execute("UPDATE rooms SET room_id=? WHERE room_id=?", (room_id_new, room_id_old))
 
     def save_message(self, room_name: str, room_id: str, message_evt_id: str, message_id: str, message_content: str):
         self.plugin.log.info("saving message to db")
@@ -48,8 +48,8 @@ class MrDatabase:
         return result
 
     def get_evt_by_message_id(self, message_id):
-        result = self.db.execute(self.messages.select(and_(self.messages.c.room_id, self.messages.c.message_evt_id))
-                                 .where(self.messages.c.message_id == message_id)).fetchone()
+        result = self.db.execute("SELECT room_id, message_evt_id FROM messages WHERE message_id=?",
+                                 (message_id,)).fetchone()
         return result
 
     def message_set_deleted(self, message_id):

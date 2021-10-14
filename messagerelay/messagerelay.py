@@ -70,15 +70,15 @@ class Messagerelay(Plugin):
 
                     elif r.get('type') == 'delete':
                         msg_id = r.get("id")
-                        self.log.info(f'delete message: {msg_id}')
-                        result = self.db.get_evt_by_message_id(msg_id)
+                        self.log.info(f'delete message: {msg_id} from room {room_id} / evt: {evt_id}')
 
+                        result = self.db.get_evt_by_message_id(msg_id)
                         room_id = result[0]
                         evt_id = result[1]
 
                         await self.client.redact(
                             room_id=room_id,
-                            reason="deleted with MessageRelayLight",
+                            reason="deleted with MessageRelayLite",
                             event_id=evt_id
                         )
 
