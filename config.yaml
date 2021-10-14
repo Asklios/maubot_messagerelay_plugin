@@ -1,0 +1,3 @@
+admin: "user:example.com"
+api_key: "Ap1-K3y"
+api_uri: "wss://example.com/api/"
